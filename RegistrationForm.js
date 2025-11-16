@@ -16,11 +16,9 @@ class RegistrationForm extends React.Component {
 
   validate() {
     const errors = {};
-    if (!this.state.name) {
-      errors.name = "Name is required";
-    } else if (this.state.name.length < 3) {
-      errors.name = "Name must be at least 3 letters";
-    }
+    if (!this.state.name || this.state.name.length < 3) {
+      errors.name = "Name is required and can't be < 3 letters";
+    } 
     if (!this.state.email) {
       errors.email = "Email is required";
     } else if (!/^\S+@\S+\.\S+$/.test(this.state.email)) {
@@ -29,7 +27,9 @@ class RegistrationForm extends React.Component {
     if (!this.state.password) {
       errors.password = "Password is required";
     } else if (this.state.password.length < 8) {
-      errors.password = "Password must be at least 8 letters";
+      errors.password = "Password must be at least 8 characters";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(this.state.password)) {
+      errors.password = "Password must contain uppercase, lowercase, number and special character";
     }
     this.setState({ errors });
     return Object.keys(errors).length === 0;
